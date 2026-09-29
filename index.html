@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9-Sinf Fizika: 2-Mavzu (Mukammal Nashr)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #0f172a;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--secondary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e40af, #2563eb);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        #zoom-container {
+            text-align: center;
+            background: #111827;
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .zoom-view {
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .scale-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .balance-beam {
+            width: 200px;
+            height: 10px;
+            background: #64748b;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: #e2e8f0;
+        }
+
+        .correct { background-color: #d1fae5 !important; border-color: #34d399 !important; }
+        .wrong { background-color: #fee2e2 !important; border-color: #f87171 !important; }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover { background: #1d4ed8; }
+
+        input[type="number"], select {
+            padding: 8px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>2-Mavzu: Molekulalarning massasi va o'lchami</h1>
+    <p>9-sinf Fizika fani bo'yicha interaktiv mukammal raqamli darslik</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>1. Molekulalar va ularning o'lchami</h2>
+        <p>Molekulalar nihoyatda kichik zarrachalardir. Ularning o'lchami o'rtacha <b>10<sup>-10</sup> metr</b> (1 angstrem) atrofida bo'ladi. Quyidagi slayderni o'ngga surib, makrodunyodan mikrodunyoga sayohat qiling:</p>
+        
+        <div id="zoom-container">
+            <input type="range" id="zoom-range" min="1" max="100" value="1" style="width: 80%;">
+            <div id="zoom-label">Hozirgi ko'rinish: Oddiy suv tomchisi (Makrodunyo)</div>
+            <div class="zoom-view">
+                <div id="visual-object" style="width: 150px; height: 150px; background: #3b82f6; border-radius: 50%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>2. Molekulalarning massasi (Laboratoriya)</h2>
+        <p>Molekulalar o'ta kichik bo'lgani uchun ularning absolyut massasi ham juda kichik (masalan, suv molekulasi ≈ 3·10<sup>-26</sup> kg). Virtual tarozida moddalarni tanlab tortib ko'ring:</p>
+        
+        <div style="margin-bottom: 15px;">
+            <label>Moddani tanlang: </label>
+            <select id="substance-select">
+                <option value="water">Suv molekulasi (H₂O)</option>
+                <option value="oxygen">Kislorod molekulasi (O₂)</option>
+                <option value="hydrogen">Vodorod atomi (H)</option>
+            </select>
+        </div>
+
+        <div class="scale-container">
+            <div>⚖️ Virtual Tarozi</div>
+            <div id="scale-beam" class="balance-beam"></div>
+            <div id="mass-result">Absolyut massa: <b>2.99 × 10<sup>-26</sup> kg</b></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>3. Nisbiy molekulyar massa va amaliy topshiriq</h2>
+        <p>Nisbiy molekulyar massa (M<sub>r</sub>) — modda molekulasi massasining uglerod atomi massasi 1/12 qismiga nisbatidir. Quyidagi kalkulyatorda modda miqdoriga ko'ra molekulalar sonini hisoblang:</p>
+        
+        <div style="background: #f8fafc; padding: 15px; border-radius: 6px;">
+            <h4>Formulalarni amalda tekshirish:</h4>
+            <input type="number" id="moles-input" placeholder="Modda miqdori (mol)" value="1" min="0"> mol
+            <button class="btn" onclick="calculateParticles()">Hisoblash</button>
+            <p id="calc-result" style="margin-top: 15px; font-weight: bold; color: var(--success);"></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🧠 Bilimni tekshirish (Interaktiv Test)</h2>
+        <p>Mavzuni qanchalik yaxshi o'zlashtirganingizni tekshirib ko'ring. To'g'ri javobni bosing:</p>
+        
+        <div id="quiz-block">
+            <h4 id="question-text">Savol: Molekulalarning o'rtacha o'lchami qanchaga teng?</h4>
+            <button class="quiz-option" onclick="checkAnswer(this, false)">A) 10<sup>-5</sup> metr</button>
+            <button class="quiz-option" onclick="checkAnswer(this, true)">B) 10<sup>-10</sup> metr</button>
+            <button class="quiz-option" onclick="checkAnswer(this, false)">C) 10<sup>-20</sup> metr</button>
+        </div>
+        <p id="quiz-feedback" style="font-weight: bold; margin-top: 10px;"></p>
+    </div>
+
+    <div class="card" style="border-left-color: #eab308;">
+        <h2>🏠 Uyga vazifa va Mustaqil ish</h2>
+        <p>Quyidagi topshiriqni daftaringizga bajaring va yakuniy sonli javobni tekshirish uchun bosing:</p>
+        <div style="background: #fef08a; padding: 15px; border-radius: 8px; color: #854d0e;">
+            <b>Masala:</b> 36 gramm suvda (H₂O) qancha molekula bor? (Suvning molyar massasi M = 18 g/mol).
+        </div>
+        <p style="margin-top: 15px;">
+            Siz topgan javob (N × 10<sup>23</sup> dona): 
+            <input type="number" id="homework-input" placeholder="Masalan: 12"> × 10<sup>23</sup>
+            <button class="btn" style="background: #eab308; color: black;" onclick="checkHomework()">Tekshirish</button>
+        </p>
+        <p id="homework-feedback" style="font-weight: bold;"></p>
+    </div>
+
+</div>
+
+<script>
+    const slider = document.getElementById('zoom-range');
+    const label = document.getElementById('zoom-label');
+    const obj = document.getElementById('visual-object');
+
+    slider.addEventListener('input', (e) => {
+        let val = e.target.value;
+        if(val < 40) {
+            label.innerText = "Hozirgi ko'rinish: Oddiy suv tomchisi (Makrodunyo)";
+            obj.style.borderRadius = "50%";
+            obj.style.background = "#3b82f6";
+            obj.style.transform = `scale(${1 - val/100})`;
+        } else if (val >= 40 && val < 80) {
+            label.innerText = "Yaqinlashmoqda: Mikroskopik mikro-tomchi";
+            obj.style.background = "#60a5fa";
+            obj.style.borderRadius = "40%";
+        } else {
+            label.innerText = "Mikrodunyo: Suv (H₂O) molekulasi shakllandi! (10⁻¹⁰ m)";
+            obj.style.background = "#ef4444";
+            obj.style.borderRadius = "50px";
+            obj.style.boxShadow = "0 0 20px rgba(239,68,68,0.8)";
+        }
+    });
+
+    const select = document.getElementById('substance-select');
+    const beam = document.getElementById('scale-beam');
+    const massRes = document.getElementById('mass-result');
+
+    select.addEventListener('change', (e) => {
+        let val = e.target.value;
+        if(val === 'water') {
+            beam.style.transform = "rotate(3deg)";
+            massRes.innerHTML = "Absolyut massa: <b>2.99 × 10<sup>-26</sup> kg</b> | Nisbiy massa: 18 a.m.b";
+        } else if(val === 'oxygen') {
+            beam.style.transform = "rotate(7deg)";
+            massRes.innerHTML = "Absolyut massa: <b>5.31 × 10<sup>-26</sup> kg</b> | Nisbiy massa: 32 a.m.b";
+        } else {
+            beam.style.transform = "rotate(-5deg)";
+            massRes.innerHTML = "Absolyut massa: <b>1.67 × 10<sup>-27</sup> kg</b> | Nisbiy massa: 1 a.m.b";
+        }
+    });
+
+    function calculateParticles() {
+        let moles = document.getElementById('moles-input').value;
+        let Na = 6.02;
+        let result = moles * Na;
+        document.getElementById('calc-result').innerText = `Javob: Kiritilgan modda miqdorida jami ${result.toFixed(2)} × 10²³ dona molekula mavjud!`;
+    }
+
+    function checkAnswer(button, isCorrect) {
+        let options = document.querySelectorAll('.quiz-option');
+        options.forEach(opt => opt.disabled = true);
+
+        if(isCorrect) {
+            button.classList.add('correct');
+            document.getElementById('quiz-feedback').innerText = "🎉 To'g'ri! Barakalla. Molekulalar aynan 10⁻¹⁰ metr tartibiga ega.";
+            document.getElementById('quiz-feedback').style.color = "var(--success)";
+        } else {
+            button.classList.add('wrong');
+            document.getElementById('quiz-feedback').innerText = "❌ Noto'g'ri. Mavzuni qayta o'qib ko'ring.";
+            document.getElementById('quiz-feedback').style.color = "var(--danger)";
+        }
+    }
+
+    function checkHomework() {
+        let userAns = document.getElementById('homework-input').value;
+        let feedback = document.getElementById('homework-feedback');
+        if(userAns == 12 || userAns == 12.04) {
+            feedback.innerText = "⭐ Ajoyib! Javobingiz mutloqo to'g'ri (12 × 10²³ dona).";
+            feedback.style.color = "var(--success)";
+        } else {
+            feedback.innerText = "⚠️ Noto'g'ri. Yordam: Dastlab n = m/M dan modda miqdorini toping, keyin uni Avogadro soniga ko'paytiring.";
+            feedback.style.color = "var(--danger)";
+        }
+    }
+</script>
+
+</body>
+</html>
